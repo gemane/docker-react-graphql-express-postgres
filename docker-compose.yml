@@ -1,0 +1,45 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    container_name: db_postgres
+#    volumes:
+#      - /c/data/database-data:/var/lib/postgresql/data/
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=db_password
+      - POSTGRES_DB=mydatabase
+  web-app:
+    depends_on: 
+      - api
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/fullstack-apollo-react-boilerplate/node_modules
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    container_name: web-app
+  api:
+    depends_on: 
+      - postgres
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - '8000:8000'
+    restart: on-failure
+    container_name: api
+    volumes:
+      - /app/fullstack-apollo-express-postgresql-boilerplate/node_modules # Inside the container, don't try to override this folder, just leave as is
+    environment:
+      - DATABASE_URL=postgres://postgres:db_password@postgres:5432/mydatabase
+#      - DEV_DATABASE_URL=postgres://<db_user>:<db_password>@127.0.0.1:5432/dev_db
+#      - DATABASE=postgres
+#      - DATABASE_USER=postgres
+#      - DATABASE_PASSWORD=db_password
+      - SECRET=asdlplplfwfwefwekwself.2342.dawasdq
