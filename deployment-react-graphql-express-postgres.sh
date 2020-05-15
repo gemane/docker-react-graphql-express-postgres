@@ -27,7 +27,7 @@ if [[ $(docker volume ls -f dangling=true | grep local) ]]; then
 fi
 if [[ $(docker network ls| grep local) ]]; then
     echo "Clean up orphaned networks";
-    docker network rm $(docker network ls -q);
+    docker network prune $(docker network ls -q);
 fi
 
 echo "Start Docker Compose ..."
