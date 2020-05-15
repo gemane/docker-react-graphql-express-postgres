@@ -14,24 +14,28 @@ for container_name in $Container; do
 done
 
 if [[ $(docker ps -a | grep -i Exited) ]]; then
-    echo "Remove Container..."
-    docker rm $(docker ps -a | grep -i Exited | grep -Eo '^[^ ]+')
+    echo "Remove Container...";
+    docker rm $(docker ps -a | grep -i Exited | grep -Eo '^[^ ]+');
 fi
 if [[ $(docker images -a | grep -i ago) ]]; then
-    echo "Remove Images..."
-    docker image prune -af
+    echo "Remove Images...";
+    docker image prune -af;
 fi
-if $(docker volume ls -qf dangling=true | grep "\."); then
+if [[ $(docker volume ls -f dangling=true | grep local) ]]; then
     echo "Clean up orphaned volumes"
-    docker volume rm $(docker volume ls -qf dangling=true)
+    docker volume rm $(docker volume ls -qf dangling=true);
 fi
-if $(docker network ls -q | grep "\."); then
-    echo "Clean up orphaned networks"
-    docker network rm $(docker network ls -q)
+if [[ $(docker network ls| grep local) ]]; then
+    echo "Clean up orphaned networks";
+    docker network rm $(docker network ls -q);
 fi
 
 echo "Start Docker Compose ..."
 docker-compose up -d
+
+# The database is not ready when the api container starts so the api container has to restart again.
+sleep 10;
+docker restart api;
 
 Container="web-app api postgres webserver"
 for container_name in $Container; do
