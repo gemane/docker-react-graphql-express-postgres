@@ -32,7 +32,7 @@ You should have docker and docker-compose installed on your machine.
 * Web App with React at 
   + http://localhost:3000/
 
- * API as NodeJS project with GraphQL at 
+* API as NodeJS project with GraphQL at 
   + http://localhost:8000/graphql
 
 

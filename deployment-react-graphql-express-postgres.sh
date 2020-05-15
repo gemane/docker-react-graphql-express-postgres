@@ -51,4 +51,6 @@ done
 docker ps -a
 
 echo
+echo "Call URL at http://localhost:3000/"
+echo
 echo "** Deployment successful **"
