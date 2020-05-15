@@ -38,7 +38,7 @@ You should have docker and docker-compose installed on your machine.
 
  ## Deployment
 
-Included is a deployment script `deployment-apollo-subscriptions-example.sh` so that the application can be started easily. 
+Included is a deployment script `deployment-react-graphql-express-postgres.sh` so that the application can be started easily. 
 
 Be careful as this script 
 
